@@ -1,0 +1,130 @@
+/*
+  Nokia colors
+  strong blue: #124191
+  light blue: #00c6ff;
+
+  Flat colors
+  concrete: #a5b1b2;
+  abestos: #828d8e;
+  silver: #ccd0d3;
+*/
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+h1, h2, h3, ul, ol, div, section, header, img, a {
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  font-weight: 100;
+  font-size: 3em;
+  color: #828d8e;
+  margin: 0 0 20px 0;
+}
+
+h3 {
+  font-weight: 400;
+}
+
+section {
+  margin: 50px 0 0 20px;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+ul > li {
+  width: 355px;
+  height: 45px;
+  background: #FFF;
+  margin: 0 0 5px 0;
+  -webkit-box-shadow: 2px 2px 2px rgba(100, 109, 110, 0.35);
+  -moz-box-shadow:    2px 2px 2px rgba(100, 109, 110, 0.35);
+  box-shadow:         2px 2px 2px rgba(100, 109, 110, 0.35);
+}
+
+.index {
+  float: left;
+  width: 25px;
+  height: 45px;
+  background: #124191;
+  color: white;
+  font-weight: 100;
+  font-size: 1.8em;
+  line-height: 45px;
+  text-align: center;
+}
+
+.info {
+  float: left;
+  height: 25px;
+  margin: 10px 0 0 10px;
+}
+
+.info > .title {
+  font-size: 1.2em;
+  color: #124191;
+}
+
+.info > .vinicity {
+  color: #828d8e;
+}
+
+.actions {
+  float: right;
+  margin: 10px 10px 0 0;
+}
+
+.icon {
+  margin-top: 10px;
+}
+
+.button {
+  display: inline-block;
+  width: 125px;
+  height: 45px;
+  background: #8b8e91;
+}
+
+#sidebar {
+  float: left;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 100%;
+  background: #ccd0d3;
+}
+
+#routeAction {
+  margin-top: 20px;
+}
+
+#routeAction > li {
+  display: inline-block;
+}
+
+#routeAction .selected img {
+  border: 1px solid #00c6ff;
+}
+
+#map {
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 400px;
+  width: 100%;
+  height: 100%;
+}
+
+#search > header {
+  margin-bottom: 20px;
+}

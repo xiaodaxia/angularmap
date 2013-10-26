@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html ng-app="hereApp">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/application.css">
+  </head>
+
+  <body>
+    <div id="sidebar" ng-controller="SearchCtrl">
+      <section id="search" style="display: none;">
+        <header>
+          <h2>search</h2>
+
+          <div id="searchBox">
+          </div>
+        </header>
+
+        <ul>
+          <li ng-repeat="place in places">
+            <div class="index">{{ $index + 1 }}</div>
+            <div class="info">
+              <h3 class="title">{{ place.title | truncate:35 }}</h3>
+              <span class="vicinity">{{ place.vicinity | clean | truncate: 30 }}</span>
+            </div>
+
+            <div class="actions">
+              <a class="icon" href="#" ng-click="addToIntinerary(place)" ng-hide="isInIntinerary(place)">
+                <img src="img/plus.png" title="Add to intinerary"/>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section id="intinerary" ng-show="places.length == 0 && intinerary.length > 0" style="display: none;">
+        <header>
+          <h2>intinerary</h2>
+        </header>
+
+        <ul>
+          <li ng-repeat="place in intinerary">
+            <div class="index" ng-show="$first">A</div>
+            <div class="index" ng-show="intinerary.length > 1 && $last">B</div>
+
+            <div class="info">
+              <h3 class="title">{{ place.title | truncate: 20 }}</h3>
+              <span class="vicinity">{{ place.vicinity | clean | truncate: 30 }}</span>
+            </div>
+
+            <div class="actions">
+              <a href="#" class="icon" ng-show="intinerary.length > 1 && !$first" ng-click="moveUp(place)">
+                <img src="img/up.png" title="Move it up" />
+              </a>
+              <a href="#" class="icon" ng-click="removeFromIntinerary(place)">
+                <img src="img/delete.png" title="Remove from intinerary"/>
+              </a>
+            </div>
+          </li>
+        </ul>
+
+        <ol id="routeAction" ng-show="intinerary.length > 1">
+          <li>
+            <a href="#" ng-class="{selected: transportMode == 'car'}" ng-click="changeTransport('car')">
+              <img src="img/car.png" title="Car" />
+            </a>
+          </li>
+
+          <li>
+            <a href="#" ng-class="{selected: transportMode == 'pedestrian'}" ng-click="changeTransport('pedestrian')">
+              <img src="img/pedestrian.png" title="Pedestrian" />
+            </a>
+          </li>
+
+          <li>
+            <a href="#" ng-click="createRoute()">
+              <img src="img/createRoute.png" title="Create route" />
+            </a>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <div id="map">
+    </div>
+
+    <script type="text/javascript" charset="UTF-8" src="http://js.cit.api.here.com/se/2.5.3/jsl.js?with=all"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+
+    <script type="text/javascript" src="js/here.js"></script>
+    <script type="text/javascript" src="js/filters.js"></script>
+    <script type="text/javascript" src="js/controllers.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+
+    <script type="text/javascript">
+      var mapContainer = document.getElementById("map");
+      var sidebar = document.getElementById("sidebar");
+      var search = document.getElementById("search");
+      var intinerary = document.getElementById("intinerary");
+
+      function resizeMap() {
+        var width = window.innerWidth;
+        mapContainer.style.width = (window.innerWidth - sidebar.offsetWidth) + "px";
+      }
+
+      resizeMap();
+      window.onresize = resizeMap;
+
+      var options = {
+        whenMapIsReady: function() {
+          var scope = angular.element(sidebar).scope();
+
+          scope.$apply(function() {
+            scope.here = here;
+          });
+
+          search.style.display = "block";
+        }
+      }
+
+      var here = new Here("DemoAppId01082013GAL", "AJKnXv84fjrb0KIHawS0Tg", mapContainer, options);
+
+      here.createSearchBox("searchBox", {latitude: 52.51, longitude: 13.37}, function(response) {
+        var places = response.results.items.slice(0, 5);
+        var scope = angular.element(sidebar).scope();
+
+        scope.$apply(function() {
+          scope.updatePlaces(places);
+          here.clearMap();
+          here.displayPlaces(places);
+        });
+      });
+    </script>
+
+  </body>
+</html>
